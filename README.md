@@ -14,11 +14,12 @@ To use this module, follow these steps:
 ```python
 from repository_updater import Updater
 
-# Instantiate Updater object
-updater = Updater()
+# Instantiate build file path
+Updater.build_file_path = 'path to your file'
+
 
 # Run update sequence
-updater.run_update_sequence()
+Updater.run_update_sequence()
 ```
 
 ## Build File Format
@@ -38,7 +39,7 @@ python print('Build process executed')
 ## Class: Updater
 ### Methods
 - `run_update_sequence()`: Checks if the current branch is behind the remote repository, pulls changes if necessary, and executes build instructions.
-- `run_build(build_file_path='build.updater')`: Reads the build instructions from the specified file and executes them.
+- `run_build()`: Reads the build instructions from `Updater.build_file_path` and executes them.
 - `pull_from_remote()`: Pulls changes from the remote repository using git pull.
 - `check_for_update()`: Checks if the current branch is behind the remote repository.
 

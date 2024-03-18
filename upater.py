@@ -33,7 +33,11 @@ class Updater():
     """Checks if current branch is behind remote,
         pulls from remote and runs instructions from 
         'build.updater' file
+        
+        Static parameters:
+            build_file_path: str
     """
+    build_file_path = ''
 
     def run_shell_command(command_list: list) -> bool:
         """Runs command via subproccess
@@ -83,17 +87,13 @@ class Updater():
         Updater.run_shell_command(['git', 'pull'])
 
 
-    def run_build(build_file_path='build.updater') -> bool:
+    def run_build() -> bool:
         """Reads 'build.updater' file and executes all commands from it
-        
-        Parameters:
-            build_file_path: str
-                Path to build file, containing build commands
-        
+               
         Returns:
             bool: True if all comands done
         """
-        with open(build_file_path, 'r', encoding='utf-8') as fd:
+        with open(Updater.build_file_path, 'r', encoding='utf-8') as fd:
             build_file = fd.read()
             commands_list = build_file.split('\n')
         for command in commands_list:
@@ -113,4 +113,5 @@ class Updater():
             Updater.run_build()
 
 if __name__ == '__main__':
+    Updater.build_file_path = 'build.updater'
     Updater.run_update_sequence()
