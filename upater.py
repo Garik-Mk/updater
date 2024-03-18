@@ -34,11 +34,8 @@ class Updater():
         pulls from remote and runs instructions from 
         'build.updater' file
     """
-    def __init__(self) -> None:
-        pass
-        
-    
-    def run_shell_command(self, command_list: list) -> bool:
+
+    def run_shell_command(command_list: list) -> bool:
         """Runs command via subproccess
 
         Args:
@@ -55,7 +52,7 @@ class Updater():
         return True
         
           
-    def check_for_update(self) -> bool:
+    def check_for_update() -> bool:
         """Check, if remote is ahead of current branch
 
         Returns:
@@ -81,12 +78,12 @@ class Updater():
             return False
 
 
-    def pull_from_remote(self) -> None:
+    def pull_from_remote() -> None:
         """Pulls from remote via running 'git pull' """
-        self.run_shell_command(['git', 'pull'])
+        Updater.run_shell_command(['git', 'pull'])
 
 
-    def run_build(self, build_file_path='build.updater') -> bool:
+    def run_build(build_file_path='build.updater') -> bool:
         """Reads 'build.updater' file and executes all commands from it
         
         Parameters:
@@ -103,16 +100,17 @@ class Updater():
             command_sequence = command.split()
             match command_sequence[0]:
                 case 'shell':
-                    self.run_shell_command(command_sequence[1:])
+                    Updater.run_shell_command(command_sequence[1:])
                 case 'python':
                     exec(' '.join(command_sequence[1:]))
                 case _:
                     print(f'You have mistake in "{command}", "{command_sequence[0]}" type not defined')
                     break
-
+    
+    def run_update_sequence():
+        if Updater.check_for_update():
+            Updater.pull_from_remote()
+            Updater.run_build()
 
 if __name__ == '__main__':
-    updater = Updater()
-    if updater.check_for_update():
-        updater.pull_from_remote()
-        updater.run_build()
+    Updater.run_update_sequence()
