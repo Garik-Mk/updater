@@ -86,13 +86,17 @@ class Updater():
         self.run_shell_command(['git', 'pull'])
 
 
-    def run_build(self) -> bool:
+    def run_build(self, build_file_path='build.updater') -> bool:
         """Reads 'build.updater' file and executes all commands from it
+        
+        Parameters:
+            build_file_path: str
+                Path to build file, containing build commands
         
         Returns:
             bool: True if all comands done
         """
-        with open('build.updater', 'r', encoding='utf-8') as fd:
+        with open(build_file_path, 'r', encoding='utf-8') as fd:
             build_file = fd.read()
             commands_list = build_file.split('\n')
         for command in commands_list:
